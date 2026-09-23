@@ -1,0 +1,31 @@
+{% extends 'usuarios/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Nuevo Cargo{% endblock %}
+
+{% block content %}
+<div class="card shadow border-0 rounded-4 mt-4">
+    <div class="card-body p-4 p-md-5">
+        
+        <h2 class="fw-bold text-primary text-center mb-4">
+            {% if form.instance.pk %}Editar Cargo{% else %}Registrar Cargo{% endif %}
+        </h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {{ form|crispy }}
+            
+            <div class="d-grid gap-3 d-md-flex justify-content-md-end mt-5">
+                <a href="{% url 'lista_cargos' %}" class="btn btn-outline-secondary px-4 fw-bold rounded-3">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary px-4 fw-bold rounded-3 shadow-sm">
+                    Guardar Cargo
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

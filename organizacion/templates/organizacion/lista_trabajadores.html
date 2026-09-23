@@ -1,0 +1,58 @@
+{% extends 'usuarios/base.html' %}
+
+{% block title %}Trabajadores{% endblock %}
+
+{% block content %}
+<div class="card shadow border-0 rounded-4 mt-4">
+    <div class="card-body p-4 p-md-5">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-primary mb-0">Trabajadores</h2>
+            <a href="{% url 'crear_trabajador' %}" class="btn btn-success fw-bold rounded-3 shadow-sm">
+                + Nuevo Trabajador
+            </a>
+        </div>
+        
+        <hr class="mb-4">
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">RUT</th>
+                        <th scope="col">Nombre Completo</th>
+                        <th scope="col">Departamento</th>
+                        <th scope="col">Cargo</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trabajador in trabajadores %}
+                    <tr>
+                        <td class="fw-bold text-secondary">{{ trabajador.rut }}</td>
+                        <td class="fw-bold">{{ trabajador.nombres }} {{ trabajador.apellidos }}</td>
+                        <td><span class="badge bg-info text-dark">{{ trabajador.departamento }}</span></td>
+                        <td>{{ trabajador.cargo }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'editar_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                            <a href="{% url 'eliminar_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            No hay trabajadores registrados aún.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'bienvenida' %}" class="btn btn-outline-secondary rounded-3">Volver al Inicio</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'usuarios/base.html' %}
+
+{% block title %}Departamentos{% endblock %}
+
+{% block content %}
+<div class="card shadow border-0 rounded-4 mt-4">
+    <div class="card-body p-4 p-md-5">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-primary mb-0">Departamentos</h2>
+            <a href="{% url 'crear_departamento' %}" class="btn btn-success fw-bold rounded-3 shadow-sm">
+                + Nuevo Departamento
+            </a>
+        </div>
+        
+        <hr class="mb-4">
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Código de Área</th>
+                        <th scope="col">Nombre del Departamento</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- El bucle for recorre la variable 'departamentos' que enviaste desde la vista -->
+                    {% for depto in departamentos %}
+                    <tr>
+                        <td>{{ depto.id }}</td>
+                        <td><span class="badge bg-secondary">{{ depto.codigo_area }}</span></td>
+                        <td class="fw-bold">{{ depto.nombre }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'editar_departamento' depto.id %}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                            <a href="{% url 'eliminar_departamento' depto.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <!-- Esto se muestra si la tabla en la base de datos está vacía -->
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            No hay departamentos registrados aún.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'bienvenida' %}" class="btn btn-outline-secondary rounded-3">Volver al Inicio</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

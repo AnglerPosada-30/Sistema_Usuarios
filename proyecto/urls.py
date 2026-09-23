@@ -1,0 +1,33 @@
+"""
+URL configuration for proyecto project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+
+#Agregamos include para poder incluir las urls de la aplicación usuarios en el archivo urls.py del proyecto.
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    #Agregamos la ruta para la aplicación usuarios. Esto permitirá que las urls definidas en la aplicación usuarios sean accesibles desde el proyecto.
+    path('usuarios/', include('usuarios.urls')),
+
+    #Agregamos la ruta para la aplicación organizacion. Esto permitirá que las urls definidas en la aplicación organizacion sean accesibles desde el proyecto.
+    path('organizacion/', include('organizacion.urls')),
+
+    #Agregamos la ruta para la aplicación auditoria. Esto permitirá que las urls definidas en la aplicación auditoria sean accesibles desde el proyecto.
+    path('auditoria/', include('auditoria.urls')),
+]

@@ -1,0 +1,54 @@
+{% extends 'usuarios/base.html' %}
+
+{% block title %}Cargos{% endblock %}
+
+{% block content %}
+<div class="card shadow border-0 rounded-4 mt-4">
+    <div class="card-body p-4 p-md-5">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-primary mb-0">Cargos</h2>
+            <a href="{% url 'crear_cargo' %}" class="btn btn-success fw-bold rounded-3 shadow-sm">
+                + Nuevo Cargo
+            </a>
+        </div>
+        
+        <hr class="mb-4">
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" style="width: 10%;">ID</th>
+                        <th scope="col">Nombre del Cargo</th>
+                        <th scope="col" class="text-center" style="width: 25%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cargo in cargos %}
+                    <tr>
+                        <td class="fw-bold text-secondary">{{ cargo.id }}</td>
+                        <td class="fw-bold">{{ cargo.nombre }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'editar_cargo' cargo.id %}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                            <a href="{% url 'eliminar_cargo' cargo.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-4">
+                            No hay cargos registrados aún.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'bienvenida' %}" class="btn btn-outline-secondary rounded-3">Volver al Inicio</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

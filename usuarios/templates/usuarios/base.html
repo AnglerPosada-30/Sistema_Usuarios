@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Sistema INACAP{% endblock %}</title>
+    
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <!-- INICIO DE LA BARRA DE NAVEGACIÓN -->
+    {% if request.user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'bienvenida' %}">Sistema INACAP</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="menuNavegacion">
+                <!-- Enlaces del lado izquierdo -->
+
+                <!-- Enlaces ocultos para usuarios normales -->
+                {% if user.is_superuser %}
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_departamentos' %}">Departamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_cargos' %}">Cargos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_trabajadores' %}">Trabajadores</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_historial' %}">Historial Laboral</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-warning fw-bold" href="{% url 'lista_auditoria' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill me-1" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5z"/>
+                            </svg>
+                            Auditoría
+                        </a>
+                    </li>
+
+                </ul>
+                {% else %}
+
+                <ul class="navbar-nav me-auto"></ul>
+                
+                {% endif %}
+
+                <!--Fin del enlace-->
+                
+                <!-- Perfil de usuario al lado derecho -->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" id="menuUsuario" role="button" data-bs-toggle="dropdown">
+                            Hola, {{ request.user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                            <li><a class="dropdown-item" href="{% url 'bienvenida' %}">Mi Panel</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <!-- Botón de cerrar sesión seguro -->
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item text-danger fw-bold">Cerrar Sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+    <!-- FIN DE LA BARRA DE NAVEGACIÓN -->
+
+    <div class="container">
+        
+        <!-- Sistema de Alertas de Django -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mb-4 shadow-sm" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-12">
+                <!-- Aquí se inyectará el contenido de las otras páginas -->
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Bootstrap (Necesario para que funcione el menú desplegable) -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

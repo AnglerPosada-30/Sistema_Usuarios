@@ -1,0 +1,64 @@
+{% extends 'usuarios/base.html' %}
+
+{% block title %}Bienvenida{% endblock %}
+
+{% block content %}
+<div class="card shadow border-0 rounded-4 mt-4">
+    <div class="card-body p-5">
+        
+        <!-- Encabezado y saludo condicional -->
+        <div class="text-center mb-4">
+            {% if request.user.is_superuser %}
+                <h2 class="fw-bold text-danger">Administración del Sistema</h2>
+                <h4 class="text-muted">Bienvenido Administrador {{ request.user.username }}</h4>
+            {% else %}
+                <h2 class="fw-bold text-primary">Panel de Usuario</h2>
+                <h4 class="text-muted">Bienvenido {{ request.user.username }} al sistema</h4>
+            {% endif %}
+        </div>
+        
+        <hr class="my-4"> 
+
+        <h3 class="mb-4 text-secondary">Mis Datos</h3>
+
+        <!-- Lista de datos usando Bootstrap list-group -->
+        <ul class="list-group list-group-flush mb-5 shadow-sm rounded">
+            <li class="list-group-item py-3">
+                <strong class="text-dark">Usuario:</strong> 
+                <span class="float-end text-muted">{{ request.user.username }}</span>
+            </li>
+            <li class="list-group-item py-3">
+                <strong class="text-dark">Nombre:</strong> 
+                <span class="float-end text-muted">{{ request.user.first_name }}</span>
+            </li>
+            <li class="list-group-item py-3">
+                <strong class="text-dark">Apellido:</strong> 
+                <span class="float-end text-muted">{{ request.user.last_name }}</span>
+            </li>
+            <li class="list-group-item py-3">
+                <strong class="text-dark">Email:</strong> 
+                <span class="float-end text-muted">{{ request.user.email }}</span>
+            </li>
+            <li class="list-group-item py-3">
+                <strong class="text-dark">Fecha de Registro:</strong> 
+                <span class="float-end text-muted">{{ request.user.date_joined|date:"d M Y, H:i" }}</span>
+            </li>
+        </ul>
+
+        <!-- Botones de administración de cuenta -->
+        <div class="d-grid gap-3 d-md-flex justify-content-md-center mb-4">
+            <a href="{% url 'editar_perfil' %}" class="btn btn-outline-primary px-4 fw-bold">Editar Perfil</a>
+            <a href="{% url 'eliminar_cuenta' %}" class="btn btn-outline-danger px-4 fw-bold">Eliminar mi cuenta</a>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Botón de Cerrar Sesión seguro (POST) -->
+        <form method="post" action="{% url 'logout' %}" class="text-center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary px-5 rounded-3">Cerrar Sesión</button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

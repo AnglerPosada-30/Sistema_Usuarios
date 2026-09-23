@@ -1,0 +1,20 @@
+{% extends 'usuarios/base.html' %}
+
+{% block title %}Eliminar Cuenta{% endblock %}
+
+{% block content %}
+<div class="card shadow border-0 rounded-4 mt-4 border-danger">
+    <div class="card-body p-5 text-center">
+        <h2 class="card-title text-danger mb-3 fw-bold">Eliminar Cuenta</h2>
+        <p class="lead text-dark">¿Estás seguro de que deseas eliminar tu cuenta?</p>
+        <p class="text-muted mb-4">Esta acción no se puede deshacer.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg w-100 mb-3 rounded-3">Sí, eliminar mi cuenta</button>
+        </form>
+        
+        <a href="{% url 'bienvenida' %}" class="btn btn-outline-secondary btn-lg w-100 rounded-3">Cancelar</a>
+    </div>
+</div>
+{% endblock %}
