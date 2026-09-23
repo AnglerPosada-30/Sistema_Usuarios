@@ -124,6 +124,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
 #Agregamos la ruta de los archivos estáticos
 STATICFILES_DIRS = [
     BASE_DIR / "static", #Es así porque estoy usando pathlib.

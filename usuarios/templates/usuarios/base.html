@@ -6,105 +6,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mi Sistema INACAP{% endblock %}</title>
     
+    <!-- Librerías CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-    <!-- INICIO DE LA BARRA DE NAVEGACIÓN -->
-    {% if request.user.is_authenticated %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'bienvenida' %}">Sistema INACAP</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="menuNavegacion">
-                <!-- Enlaces del lado izquierdo -->
-
-                <!-- Enlaces ocultos para usuarios normales -->
-                {% if user.is_superuser %}
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_departamentos' %}">Departamentos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_cargos' %}">Cargos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_trabajadores' %}">Trabajadores</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_historial' %}">Historial Laboral</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-warning fw-bold" href="{% url 'lista_auditoria' %}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill me-1" viewBox="0 0 16 16">
-                              <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5z"/>
-                            </svg>
-                            Auditoría
-                        </a>
-                    </li>
-
-                </ul>
-                {% else %}
-
-                <ul class="navbar-nav me-auto"></ul>
+    {% if user.is_authenticated %}
+    <!-- DISEÑO PARA USUARIO LOGUEADO (Con Sidebar y Navbar) -->
+    <div class="d-flex" style="min-height: 100vh;">
+        
+        <!-- INICIO SIDEBAR (Solo Admin) -->
+        {% if user.is_superuser %}
+        <div class="bg-dark text-white shadow-lg flex-shrink-0" style="width: 280px; position: sticky; top: 0; height: 100vh; overflow-y: auto;">
+            <div class="p-4">
+                <a href="{% url 'bienvenida' %}" class="text-white text-decoration-none d-flex align-items-center mb-4">
+                    <i class="bi bi-buildings fs-3 me-3 text-primary"></i>
+                    <span class="fs-4 fw-bold">INACAP HR</span>
+                </a>
+                <hr class="border-secondary opacity-50">
                 
+                <ul class="nav nav-pills flex-column mb-auto gap-2 mt-4">
+                    <li class="nav-item"><a href="{% url 'lista_departamentos' %}" class="nav-link text-white px-3 py-2 rounded-3 btn-hover"><i class="bi bi-building me-3"></i> Departamentos</a></li>
+                    <li class="nav-item"><a href="{% url 'lista_cargos' %}" class="nav-link text-white px-3 py-2 rounded-3 btn-hover"><i class="bi bi-briefcase me-3"></i> Cargos</a></li>
+                    <li class="nav-item"><a href="{% url 'lista_trabajadores' %}" class="nav-link text-white px-3 py-2 rounded-3 btn-hover"><i class="bi bi-people me-3"></i> Trabajadores</a></li>
+                    <li class="nav-item"><a href="{% url 'lista_historial' %}" class="nav-link text-white px-3 py-2 rounded-3 btn-hover"><i class="bi bi-clock-history me-3"></i> Historial Laboral</a></li>
+                    <li class="nav-item mt-4"><a href="{% url 'lista_auditoria' %}" class="nav-link text-warning px-3 py-2 rounded-3 fw-bold btn-hover" style="background-color: rgba(255, 193, 7, 0.1);"><i class="bi bi-shield-lock-fill me-3"></i> Auditoría</a></li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="flex-grow-1 w-100 d-flex flex-column bg-light">
+            <!-- TOP NAVBAR -->
+            <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0f172a;">
+                <div class="container-fluid px-4 d-flex justify-content-between">
+                    <div>
+                        {% if not user.is_superuser %}
+                        <a class="navbar-brand fw-bold" href="{% url 'bienvenida' %}">
+                            <i class="bi bi-buildings text-primary me-2"></i>Sistema INACAP
+                        </a>
+                        {% endif %}
+                    </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fw-bold text-white" href="#" id="menuUsuario" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i> Hola, {{ request.user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                                <li><a class="dropdown-item py-2" href="{% url 'bienvenida' %}"><i class="bi bi-speedometer2 me-2"></i>Mi Panel</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger fw-bold py-2"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4 flex-grow-1">
+    {% else %}
+    <!-- DISEÑO PARA USUARIO NO LOGUEADO (Pantalla de Login/Registro) -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+    {% endif %}
+    
+                <!-- ALERTAS FLOTANTES (Funciona tanto logueado como en el Login) -->
+                {% if messages %}
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const Toast = Swal.mixin({
+                                toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, timerProgressBar: true
+                            });
+                            {% for message in messages %}
+                                Toast.fire({
+                                    icon: '{% if message.tags == "error" %}error{% elif message.tags == "success" %}success{% else %}info{% endif %}',
+                                    title: '{{ message }}'
+                                });
+                            {% endfor %}
+                        });
+                    </script>
                 {% endif %}
 
-                <!--Fin del enlace-->
-                
-                <!-- Perfil de usuario al lado derecho -->
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle fw-bold" href="#" id="menuUsuario" role="button" data-bs-toggle="dropdown">
-                            Hola, {{ request.user.username }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                            <li><a class="dropdown-item" href="{% url 'bienvenida' %}">Mi Panel</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <!-- Botón de cerrar sesión seguro -->
-                                <form method="post" action="{% url 'logout' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="dropdown-item text-danger fw-bold">Cerrar Sesión</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    {% endif %}
-    <!-- FIN DE LA BARRA DE NAVEGACIÓN -->
-
-    <div class="container">
-        
-        <!-- Sistema de Alertas de Django -->
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mb-4 shadow-sm" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-12">
-                <!-- Aquí se inyectará el contenido de las otras páginas -->
+                <!-- AQUÍ SE INYECTA EL CONTENIDO (Tablas o Formularios de Login) -->
                 {% block content %}
                 {% endblock %}
-            </div>
-        </div>
-    </div>
 
-    <!-- Script de Bootstrap (Necesario para que funcione el menú desplegable) -->
+    {% if user.is_authenticated %}
+            </div> 
+        </div> 
+    </div> 
+    {% else %}
+            </div> 
+        </div> 
+    </div> 
+    {% endif %}
+
+    <!-- SCRIPTS CORE Y LIBRERÍAS -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- INICIALIZACIÓN DE TABLAS Y MODALES -->
+    <script>
+        $(document).ready(function() {
+            $('.tabla-interactiva').DataTable({
+                language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
+                pageLength: 5, 
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+                order: [] 
+            });
+
+            $(document).on('click', '.btn-eliminar', function(e) {
+                e.preventDefault();
+                let form = $(this).closest('form');
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Esta acción no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

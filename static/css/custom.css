@@ -1,0 +1,48 @@
+/* Importamos la fuente 'Inter', un estándar en diseño SaaS moderno */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc !important; /* Gris azulado muy sutil y limpio */
+    color: #334155;
+}
+
+/* Rediseño de las Tarjetas (Cards) */
+.card {
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important; /* Sombra suave y amplia */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Efecto hover ligero para dar interactividad */
+.card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Botones más consistentes y redondeados */
+.btn {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px;
+    padding: 0.5rem 1.25rem;
+}
+
+/* Barra de navegación premium */
+.navbar {
+    background-color: #0f172a !important; /* Azul marino oscuro, estilo panel de control */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Efectos para la Sidebar del Administrador */
+.btn-hover {
+    transition: all 0.2s ease-in-out;
+}
+.btn-hover:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}

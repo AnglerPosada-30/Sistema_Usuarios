@@ -9,14 +9,14 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold text-primary mb-0">Trabajadores</h2>
             <a href="{% url 'crear_trabajador' %}" class="btn btn-success fw-bold rounded-3 shadow-sm">
-                + Nuevo Trabajador
+                <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Trabajador
             </a>
         </div>
         
         <hr class="mb-4">
 
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
+            <table class="table table-hover align-middle tabla-interactiva" style="width:100%">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">RUT</th>
@@ -34,8 +34,18 @@
                         <td><span class="badge bg-info text-dark">{{ trabajador.departamento }}</span></td>
                         <td>{{ trabajador.cargo }}</td>
                         <td class="text-center">
-                            <a href="{% url 'editar_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
-                            <a href="{% url 'eliminar_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                            <!-- Botón Editar con ícono -->
+                            <a href="{% url 'editar_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-primary me-1" title="Editar">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            
+                            <!-- Botón Eliminar con ícono y SweetAlert -->
+                            <form action="{% url 'eliminar_trabajador' trabajador.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar" title="Eliminar">
+                                    <i class="bi bi-trash3-fill"></i> Eliminar
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% empty %}
@@ -50,7 +60,9 @@
         </div>
 
         <div class="mt-4">
-            <a href="{% url 'bienvenida' %}" class="btn btn-outline-secondary rounded-3">Volver al Inicio</a>
+            <a href="{% url 'bienvenida' %}" class="btn btn-outline-secondary rounded-3">
+                <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+            </a>
         </div>
 
     </div>
