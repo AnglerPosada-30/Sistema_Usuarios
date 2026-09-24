@@ -1,11 +1,10 @@
 from django.urls import path
 from .views import (
     DepartamentoListView, DepartamentoCreateView, DepartamentoUpdateView, DepartamentoDeleteView,
-    TrabajadorListView, TrabajadorCreateView, TrabajadorUpdateView, TrabajadorDeleteView, 
-    # Importamos las vistas de Cargos
+    # Importamos la nueva vista de detalle (TrabajadorDetailView)
+    TrabajadorListView, TrabajadorCreateView, TrabajadorUpdateView, TrabajadorDeleteView, TrabajadorDetailView, 
     CargoListView, CargoCreateView, CargoUpdateView, CargoDeleteView,
     HistorialListView, HistorialCreateView, HistorialUpdateView, HistorialDeleteView
-
 )
 
 urlpatterns = [
@@ -18,6 +17,8 @@ urlpatterns = [
     # Trabajadores
     path('trabajadores/', TrabajadorListView.as_view(), name='lista_trabajadores'),
     path('trabajadores/nuevo/', TrabajadorCreateView.as_view(), name='crear_trabajador'),
+    # NUEVA RUTA PARA EL DETALLE
+    path('trabajadores/detalle/<int:pk>/', TrabajadorDetailView.as_view(), name='detalle_trabajador'),
     path('trabajadores/editar/<int:pk>/', TrabajadorUpdateView.as_view(), name='editar_trabajador'),
     path('trabajadores/eliminar/<int:pk>/', TrabajadorDeleteView.as_view(), name='eliminar_trabajador'),
 
@@ -32,5 +33,4 @@ urlpatterns = [
     path('historial/nuevo/', HistorialCreateView.as_view(), name='crear_historial'),
     path('historial/editar/<int:pk>/', HistorialUpdateView.as_view(), name='editar_historial'),
     path('historial/eliminar/<int:pk>/', HistorialDeleteView.as_view(), name='eliminar_historial'),
-
 ]

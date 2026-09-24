@@ -13,11 +13,12 @@ class DepartamentoForm(forms.ModelForm):
 class TrabajadorForm(forms.ModelForm):
     class Meta:
         model = Trabajador
-        fields = ['rut', 'nombres', 'apellidos', 'fecha_nacimiento', 'telefono', 'departamento', 'cargo']
+        fields = ['rut', 'nombres', 'apellidos', 'fecha_nacimiento', 'correo', 'telefono', 'departamento', 'cargo', 'fecha_ingreso', 'estado']
         widgets = {
+            # ... tus otros widgets ...
+            'fecha_ingreso': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_nacimiento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
-
 class CargoForm(forms.ModelForm):
     class Meta:
         model = Cargo

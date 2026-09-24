@@ -38,6 +38,11 @@
                             <a href="{% url 'editar_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-primary me-1" title="Editar">
                                 <i class="bi bi-pencil-square"></i> Editar
                             </a>
+
+                            <!-- Botón Detalle con ícono -->
+                            <a href="{% url 'detalle_trabajador' trabajador.id %}" class="btn btn-sm btn-outline-info me-1" title="Ver Detalle">
+                                <i class="bi bi-eye"></i> Detalle
+                            </a>
                             
                             <!-- Botón Eliminar con ícono y SweetAlert -->
                             <form action="{% url 'eliminar_trabajador' trabajador.id %}" method="POST" class="d-inline">

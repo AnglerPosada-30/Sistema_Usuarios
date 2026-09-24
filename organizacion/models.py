@@ -48,6 +48,14 @@ class Trabajador(models.Model):
     
     # El teléfono no siempre es obligatorio, así que permito que quede en blanco.
     telefono = models.CharField(max_length=15, blank=True, null=True)
+
+    # NUEVOS CAMPOS REQUERIDOS POR LA PAUTA
+    correo = models.EmailField(max_length=254, unique=True, null=True, blank=True)
+    fecha_ingreso = models.DateField()
+    
+    # Para el estado Activo/Inactivo, usamos un booleano. 
+    # Por defecto, todo trabajador nuevo estará Activo (True).
+    estado = models.BooleanField(default=True, verbose_name="Activo")
     
     # --- Relaciones ---
     

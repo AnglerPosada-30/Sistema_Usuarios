@@ -1,48 +1,52 @@
 {% extends 'usuarios/base.html' %}
-{% load crispy_forms_tags %}
 
-{% block title %}Iniciar Sesión{% endblock %}
+{% block title %}Iniciar Sesión | INACAP HR{% endblock %}
 
 {% block content %}
-<!-- Tarjeta principal sin bordes y con sombra pronunciada -->
-<div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+<div class="card shadow-lg border-0 rounded-4 overflow-hidden mt-2">
     <div class="row g-0">
         
-        <!-- MITAD IZQUIERDA: Imagen de fondo (Se oculta en pantallas pequeñas con d-none d-md-block) -->
-        <div class="col-md-5 d-none d-md-block" 
-             style="background-image: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
-            <!-- Opcional: Una capa oscura semitransparente con texto -->
-            <div class="h-100 d-flex flex-column justify-content-center align-items-center" style="background-color: rgba(0, 48, 135, 0.7);">
-                <h3 class="text-white fw-bold mb-0">Sistema para Trabajadores</h3>
-                <p class="text-white-50 mt-2 text-center px-4">Plataforma de Gestión y RRHH</p>
+        <!-- Panel Gráfico Izquierdo -->
+        <div class="col-md-5 d-none d-md-flex bg-primary align-items-center justify-content-center flex-column text-white p-5">
+            <i class="bi bi-shield-lock" style="font-size: 5rem;"></i>
+            <h3 class="fw-bold mt-4 text-center">INACAP HR</h3>
+            <p class="text-center mt-2 opacity-75">Plataforma integral de gestión de personal y talento humano.</p>
+        </div>
+        
+        <!-- Panel de Formulario Derecho -->
+        <div class="col-md-7">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-dark">Iniciar Sesión</h2>
+                    <p class="text-muted">Ingresa tus credenciales para continuar</p>
+                </div>
+                
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" name="username" class="form-control rounded-3" id="id_username" placeholder="Usuario" required>
+                        <label for="id_username"><i class="bi bi-person text-secondary me-2"></i>Nombre de Usuario</label>
+                    </div>
+                    
+                    <div class="form-floating mb-4">
+                        <input type="password" name="password" class="form-control rounded-3" id="id_password" placeholder="Contraseña" required>
+                        <label for="id_password"><i class="bi bi-key text-secondary me-2"></i>Contraseña</label>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-3 fw-bold shadow-sm">
+                            Ingresar al Sistema <i class="bi bi-box-arrow-in-right ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="text-center mt-4 pt-3 border-top">
+                    <p class="text-muted mb-0">¿No tienes cuenta? <a href="{% url 'registro' %}" class="text-primary fw-bold text-decoration-none">Regístrate aquí</a></p>
+                </div>
             </div>
         </div>
         
-        <!-- MITAD DERECHA: El Formulario -->
-        <div class="col-md-7 bg-white">
-            <div class="card-body p-5">
-                <div class="text-center mb-4">
-                    <h2 class="fw-bold text-primary">Bienvenido</h2>
-                    <p class="text-muted">Ingresa tus credenciales para acceder</p>
-                </div>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    
-                    {{ form|crispy }}
-                    
-                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-4 fw-bold rounded-3">
-                        Ingresar
-                    </button>
-                </form>
-                
-                <hr class="my-4">
-                <p class="text-center text-muted mb-0">
-                    ¿No tienes una cuenta? <a href="{% url 'registro' %}" class="text-decoration-none fw-bold">Regístrate aquí</a>
-                </p>
-            </div>
-        </div>
-
     </div>
 </div>
 {% endblock %}
