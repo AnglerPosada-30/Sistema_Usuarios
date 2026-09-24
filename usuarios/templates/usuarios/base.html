@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mi Sistema INACAP{% endblock %}</title>
+    <title>{% block title %}Mi Sistema WorkBase{% endblock %}</title>
     
     <!-- Librerías CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -40,7 +40,7 @@
             <div class="p-4">
                 <a href="{% url 'bienvenida' %}" class="text-white text-decoration-none d-flex align-items-center mb-4">
                     <i class="bi bi-buildings fs-3 me-3 text-primary"></i>
-                    <span class="fs-4 fw-bold">INACAP HR</span>
+                    <span class="fs-4 fw-bold">WorkBase</span>
                 </a>
                 <hr class="border-secondary opacity-50">
                 
@@ -62,7 +62,7 @@
                     <div>
                         {% if not user.is_superuser %}
                         <a class="navbar-brand fw-bold" href="{% url 'bienvenida' %}">
-                            <i class="bi bi-buildings text-primary me-2"></i>Sistema INACAP
+                            <i class="bi bi-buildings text-primary me-2"></i>Sistema WorkBase
                         </a>
                         {% endif %}
                     </div>
@@ -73,6 +73,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                                 <li><a class="dropdown-item py-2" href="{% url 'bienvenida' %}"><i class="bi bi-speedometer2 me-2"></i>Mi Panel</a></li>
+
+                                <li><a class="dropdown-item py-2" href="{% url 'mi_perfil' %}"><i class="bi bi-person-vcard me-2"></i>Mi Perfil</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="post" action="{% url 'logout' %}">

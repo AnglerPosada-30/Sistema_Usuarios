@@ -4,7 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Departamento, Trabajador, Cargo, HistorialLaboral
 from .forms import DepartamentoForm, TrabajadorForm, CargoForm, HistorialLaboralForm
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.db.models import ProtectedError
 from django.contrib import messages
 
@@ -127,6 +127,18 @@ class TrabajadorDeleteView(AdminRequeridoMixin, DeleteView):
         self.object.delete()
         messages.success(request, "Trabajador eliminado correctamente.")
         return redirect(self.success_url)
+
+class MiPerfilView(LoginRequiredMixin, DetailView):
+    """
+    Defensa: En lugar de buscar por un ID en la URL, esta vista captura al usuario 
+    actual en sesión y busca su ficha de trabajador asociada. Si no tiene ficha, lanza 404.
+    """
+    template_name = 'organizacion/detalle_trabajador.html'
+    context_object_name = 'trabajador'
+
+    def get_object(self):
+        # Filtramos de forma segura usando la relación OneToOne del usuario logueado
+        return get_object_or_404(Trabajador, usuario=self.request.user)
 
 
 # ==========================================

@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     DepartamentoListView, DepartamentoCreateView, DepartamentoUpdateView, DepartamentoDeleteView,
     # Importamos la nueva vista de detalle (TrabajadorDetailView)
-    TrabajadorListView, TrabajadorCreateView, TrabajadorUpdateView, TrabajadorDeleteView, TrabajadorDetailView, 
+    TrabajadorListView, TrabajadorCreateView, TrabajadorUpdateView, TrabajadorDeleteView, TrabajadorDetailView, MiPerfilView,
     CargoListView, CargoCreateView, CargoUpdateView, CargoDeleteView,
     HistorialListView, HistorialCreateView, HistorialUpdateView, HistorialDeleteView
 )
@@ -21,6 +21,7 @@ urlpatterns = [
     path('trabajadores/detalle/<int:pk>/', TrabajadorDetailView.as_view(), name='detalle_trabajador'),
     path('trabajadores/editar/<int:pk>/', TrabajadorUpdateView.as_view(), name='editar_trabajador'),
     path('trabajadores/eliminar/<int:pk>/', TrabajadorDeleteView.as_view(), name='eliminar_trabajador'),
+    path('mi-perfil/', MiPerfilView.as_view(), name='mi_perfil'),
 
     # Cargos
     path('cargos/', CargoListView.as_view(), name='lista_cargos'),

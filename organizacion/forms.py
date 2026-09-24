@@ -13,11 +13,15 @@ class DepartamentoForm(forms.ModelForm):
 class TrabajadorForm(forms.ModelForm):
     class Meta:
         model = Trabajador
-        fields = ['rut', 'nombres', 'apellidos', 'fecha_nacimiento', 'correo', 'telefono', 'departamento', 'cargo', 'fecha_ingreso', 'estado']
+        # ¡Agregamos 'usuario' al principio de la lista!
+        fields = ['usuario', 'rut', 'nombres', 'apellidos', 'fecha_nacimiento', 'correo', 'telefono', 'departamento', 'cargo', 'fecha_ingreso', 'estado']
+        
         widgets = {
-            # ... tus otros widgets ...
+            # Agregamos una clase bonita para el selector de usuario
+            'usuario': forms.Select(attrs={'class': 'form-select'}),
             'fecha_ingreso': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_nacimiento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            
         }
 class CargoForm(forms.ModelForm):
     class Meta:
