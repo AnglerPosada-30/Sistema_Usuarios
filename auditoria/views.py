@@ -9,6 +9,6 @@ class AuditoriaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     # Ordenamos de más nuevo a más viejo
     ordering = ['-fecha_hora'] 
 
-    # Esta es la prueba de seguridad: si retorna False, bloquea el acceso
+    
     def test_func(self):
         return self.request.user.is_superuser

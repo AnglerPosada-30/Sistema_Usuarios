@@ -1,3 +1,9 @@
+# Este archivo views.py contiene la lógica de las vistas de la aplicación usuarios.
+# Cada vista se encarga de recibir la petición del navegador, procesar la información
+# enviada y devolver la página HTML adecuada, además de manejar operaciones como
+# registro, edición de perfil y eliminación de cuenta.
+
+
 #render me permite cargar un archivo  html
 #redirect me permite redireccionar a una url
 from django.shortcuts import render, redirect

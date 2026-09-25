@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-# NUEVO: Importamos DetailView para cumplir con la rúbrica
+
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Departamento, Trabajador, Cargo, HistorialLaboral
@@ -11,9 +11,9 @@ from django.contrib import messages
 # --- ESCUDO DE SEGURIDAD (RBAC) ---
 class AdminRequeridoMixin(UserPassesTestMixin):
     """
-    Este Mixin intercepta la petición antes de cargar la vista.
-    Defensa: "Utilizo UserPassesTestMixin para verificar si el usuario tiene el rol de superusuario. 
-    Si test_func retorna False, handle_no_permission captura al usuario, lanza una alerta y lo redirige."
+    Utilizo UserPassesTestMixin para verificar si el usuario tiene el rol de superusuario. 
+    Si test_func retorna False, handle_no_permission captura al usuario, lanza una alerta y lo redirige.
+
     """
     def test_func(self):
         return self.request.user.is_superuser
@@ -41,7 +41,7 @@ class DepartamentoCreateView(AdminRequeridoMixin, CreateView):
     success_url = reverse_lazy('lista_departamentos') 
 
     def form_valid(self, form):
-        # Defensa: "Sobreescribo form_valid para inyectar silenciosamente qué usuario está haciendo la acción 
+        #Sobreescribo form_valid para inyectar silenciosamente qué usuario está haciendo la acción 
         # antes de que Django guarde el registro en la base de datos, útil para la auditoría."
         form.instance._usuario = self.request.user
         return super().form_valid(form)
@@ -64,8 +64,8 @@ class DepartamentoDeleteView(AdminRequeridoMixin, DeleteView):
     success_url = reverse_lazy('lista_departamentos')
 
     def post(self, request, *args, **kwargs):
-        # Defensa: "Uso un bloque try-except para capturar ProtectedError. Como mi modelo tiene on_delete=PROTECT, 
-        # si intento borrar un departamento con trabajadores, evito que la app colapse y muestro un mensaje amigable."
+        # Uso un bloque try-except para capturar ProtectedError. Como mi modelo tiene on_delete=PROTECT, 
+        # si intento borrar un departamento con trabajadores, evito que la app colapse y muestro un mensaje amigable.
         try:
             self.object = self.get_object()
             self.object._usuario = request.user
@@ -86,7 +86,7 @@ class TrabajadorListView(AdminRequeridoMixin, ListView):
     template_name = 'organizacion/lista_trabajadores.html'
     context_object_name = 'trabajadores'
 
-# NUEVO: Vista de Detalle solicitada en la pauta (5 puntos)
+
 class TrabajadorDetailView(AdminRequeridoMixin, DetailView):
     """ 
     DetailView hace un SELECT * FROM Trabajador WHERE id = pk. 
@@ -130,8 +130,9 @@ class TrabajadorDeleteView(AdminRequeridoMixin, DeleteView):
 
 class MiPerfilView(LoginRequiredMixin, DetailView):
     """
-    Defensa: En lugar de buscar por un ID en la URL, esta vista captura al usuario 
+    En lugar de buscar por un ID en la URL, esta vista captura al usuario 
     actual en sesión y busca su ficha de trabajador asociada. Si no tiene ficha, lanza 404.
+
     """
     template_name = 'organizacion/detalle_trabajador.html'
     context_object_name = 'trabajador'
@@ -191,9 +192,6 @@ class CargoDeleteView(AdminRequeridoMixin, DeleteView):
 # MÓDULO DE HISTORIAL LABORAL
 # ==========================================
 
-# Asegúrate de importar LoginRequiredMixin arriba si no lo tienes:
-# from django.contrib.auth.mixins import LoginRequiredMixin
-
 class HistorialListView(LoginRequiredMixin, ListView):
     model = HistorialLaboral
     template_name = 'organizacion/lista_historial.html'
@@ -201,10 +199,10 @@ class HistorialListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """
-        Defensa: 'Sobrescribo get_queryset para aplicar seguridad a nivel de filas. 
+        Sobrescribo get_queryset para aplicar seguridad a nivel de filas. 
         Si el usuario es superadmin, retorna todos los registros de la empresa. 
         Si es un usuario estándar, filtra la base de datos para mostrar únicamente 
-        el historial que coincida con su perfil de trabajador.'
+        el historial que coincida con su perfil de trabajador.
         """
         if self.request.user.is_superuser:
             return HistorialLaboral.objects.all()

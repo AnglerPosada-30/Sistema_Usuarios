@@ -1,7 +1,7 @@
 # Se procede a la importación de la librería de formularios de Django
 from django import forms
 
-#Hacemos uso del formulario que incorpora Django para la creación de usuarios
+# Hacemos uso del formulario que incorpora Django para la creación de usuarios
 from django.contrib.auth.forms import UserCreationForm
 
 # Se importa el modelo de usuario que incorpora Django
@@ -43,8 +43,8 @@ class RegistroUsuarioForm(UserCreationForm):
             user.save()
         return user
 
-#Creamos el formulario para editar el perfil del usuario. Este formulario permitirá al usuario editar su información personal, como su nombre, apellido y correo electrónico.
-
+# Creamos el formulario para editar el perfil del usuario. Este formulario permitirá al usuario editar su información personal, como su nombre, apellido y correo electrónico.
+# Se permite solo modificar esos tres campos.
 class EditarPerfilForm(forms.ModelForm):
 
     class Meta:

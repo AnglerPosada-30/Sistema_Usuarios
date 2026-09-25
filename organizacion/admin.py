@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import Departamento, Cargo, Trabajador, HistorialLaboral
-
+# Registramos Los modelos en el administrador de Django y personalizamos su visualización.
+# Esta configuración permite controlar las columnas visibles, los filtros laterales,
+# los campos de búsqueda y el ordenamiento por defecto dentro del panel administrativo.
 @admin.register(Departamento)
 class DepartamentoAdmin(admin.ModelAdmin):
     list_display = ('id', 'codigo_area', 'nombre')
@@ -13,7 +15,6 @@ class CargoAdmin(admin.ModelAdmin):
     search_fields = ('nombre',)
     ordering = ('nombre',)
 
-# AQUÍ ASEGURAMOS LOS PUNTOS DE LA RÚBRICA (list_display, search_fields, list_filter, ordering)
 @admin.register(Trabajador)
 class TrabajadorAdmin(admin.ModelAdmin):
     # Columnas que se mostrarán en la tabla del administrador

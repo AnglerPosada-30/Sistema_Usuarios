@@ -6,33 +6,33 @@
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 WorkBase es una plataforma web desarrollada en Python con Django, diseñada para gestionar la información del personal, estructura organizacional e historial laboral de una empresa. El sistema implementa una arquitectura segura basada en roles (RBAC), separando estrictamente las vistas y privilegios entre administradores (personal de RRHH) y usuarios estándar (trabajadores).
 
 Este proyecto va más allá de un CRUD tradicional, incorporando una interfaz de usuario (UI) premium de nivel empresarial, microinteracciones asíncronas y protección de integridad referencial a nivel de base de datos.
 
 ---
 
-## 🚀 Funcionalidades Principales
+## Funcionalidades Principales
 
-### 🔐 Seguridad y Autenticación (RBAC)
+###  Seguridad y Autenticación (RBAC)
 * **Login y Registro Premium:** Interfaz de pantalla dividida (Split-Screen) con diseño corporativo y validación de credenciales.
 * **Control de Acceso:** Uso de `LoginRequiredMixin` y `UserPassesTestMixin` para proteger las rutas. Un usuario sin privilegios que intente acceder a módulos administrativos será interceptado y redirigido.
 * **Vistas Dinámicas:** El menú de navegación y la barra lateral (Sidebar) se renderizan condicionalmente dependiendo de si el usuario logueado es `superuser` o un usuario estándar.
 
-### 🏢 Módulo Administrativo (Exclusivo Superusuarios)
+### Módulo Administrativo (Exclusivo Superusuarios)
 * **Gestión Organizacional:** CRUD completo de `Departamentos` y `Cargos`.
 * **Ficha de Trabajadores:** Registro y administración de empleados vinculando llaves foráneas con validación de estado (Activo/Inactivo) y RUT único.
 * **Trazabilidad (Historial Laboral):** Registro de la evolución del trabajador dentro de la empresa, controlando fechas de inicio y fin de cada cargo.
 * **Django Admin Personalizado:** El panel nativo de Django fue configurado con `list_display`, `search_fields` y `list_filter` para ofrecer búsquedas avanzadas e indexación rápida.
 
-### 👤 Portal del Empleado (Usuarios Estándar)
+###  Portal del Empleado (Usuarios Estándar)
 * **Mi Perfil:** Vista de detalle (`DetailView`) inteligente que detecta la sesión actual y renderiza la ficha técnica de solo lectura del empleado asociado.
 * **Historial Personalizado:** Sobrescritura del método `get_queryset()` para garantizar que un usuario común solo pueda visualizar su propio historial laboral en el sistema, aislando los datos del resto de la organización.
 
 ---
 
-## 🛠️ Tecnologías y Stack
+##  Tecnologías y Stack
 
 **Backend:**
 * Python 3
@@ -51,8 +51,10 @@ Este proyecto va más allá de un CRUD tradicional, incorporando una interfaz de
 
 ---
 
-## 🗄️ Estructura de Base de Datos
+##  Estructura de Base de Datos
 El ORM de Django gestiona las siguientes entidades principales:
+1. `User`: Maneja todos los usuarios registrados en el sistema.
+2. `Rol`: Maneja que tipo de usuario intenta ingresar al sistema, si es administrador, o si es un usuario común
 1. `Departamento`: Maneja los centros de costo/áreas (Ej. Informática, Finanzas).
 2. `Cargo`: Define los puestos de trabajo.
 3. `Trabajador`: Entidad central. Posee relación `OneToOne` con el modelo `User` de Django, y `ForeignKey` protegidas hacia `Departamento` y `Cargo`.
@@ -60,7 +62,7 @@ El ORM de Django gestiona las siguientes entidades principales:
 
 ---
 
-## ⚙️ Instalación y Configuración Local
+##  Instalación y Configuración Local
 
 Si deseas correr este proyecto en tu entorno local, sigue estos pasos:
 

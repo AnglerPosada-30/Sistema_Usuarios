@@ -1,3 +1,7 @@
+# Este archivo urls.py contiene la configuración de rutas de la aplicación de usuarios.
+# Su función es vincular cada URL con la vista correspondiente, permitiendo gestionar acciones
+# como registro, inicio de sesión, edición de perfil y cierre de sesión.
+
 # Importamos path.
 from django import views
 from django.urls import path
